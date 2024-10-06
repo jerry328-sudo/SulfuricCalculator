@@ -935,27 +935,30 @@ def calculate():
     density = density_entry.get()
     molar_concentration = molar_concentration_entry.get()
     ph_value = ph_entry.get()
+    K2_value = K2_entry.get()
 
     try:
+        K2 = float(K2_value) if K2_value else 0.0102
+
         # Determine which value is provided and calculate the others
         if mass_fraction:
             mass_fraction = float(mass_fraction)
             density = get_density_from_mass_fraction(data, mass_fraction)
             molar_concentration = get_molar_concentration_from_mass_fraction(data, mass_fraction)
-            ph_value = calculate_ph(molar_concentration)
+            ph_value = calculate_ph(molar_concentration, K2=K2)
         elif density:
             density = float(density)
             mass_fraction = get_mass_fraction_from_density(data, density)
             molar_concentration = get_molar_concentration_from_density(data, density)
-            ph_value = calculate_ph(molar_concentration)
+            ph_value = calculate_ph(molar_concentration, K2=K2)
         elif molar_concentration:
             molar_concentration = float(molar_concentration)
             mass_fraction = get_mass_fraction_from_molar_concentration(data, molar_concentration)
             density = get_density_from_molar_concentration(data, molar_concentration)
-            ph_value = calculate_ph(molar_concentration)
+            ph_value = calculate_ph(molar_concentration, K2=K2)
         elif ph_value:
             ph_value = float(ph_value)
-            molar_concentration = get_molar_concentration_from_ph(ph_value)
+            molar_concentration = get_molar_concentration_from_ph(ph_value, K2=K2)
             mass_fraction = get_mass_fraction_from_molar_concentration(data, molar_concentration)
             density = get_density_from_molar_concentration(data, molar_concentration)
         else:
@@ -977,7 +980,7 @@ def calculate():
 
 def clear_fields():
     """
-    Clear all input and output fields.
+    Clear all input and output fields, except for K2.
     """
     mass_fraction_entry.delete(0, tk.END)
     density_entry.delete(0, tk.END)
@@ -1009,9 +1012,15 @@ ph_label.grid(row=3, column=0, padx=10, pady=5)
 ph_entry = tk.Entry(root)
 ph_entry.grid(row=3, column=1, padx=10, pady=5)
 
+K2_label = tk.Label(root, text="K2 Value (default 0.0102):")
+K2_label.grid(row=0, column=2, padx=10, pady=5)
+K2_entry = tk.Entry(root)
+K2_entry.insert(0, "0.0102")
+K2_entry.grid(row=0, column=3, padx=10, pady=5)
+
 # Create and place the Calculate and Clear buttons side by side
 button_frame = tk.Frame(root)
-button_frame.grid(row=4, column=0, columnspan=2, pady=10)
+button_frame.grid(row=4, column=0, columnspan=4, pady=10)
 
 calculate_button = tk.Button(button_frame, text="Calculate", command=calculate)
 calculate_button.grid(row=0, column=0, padx=5)
