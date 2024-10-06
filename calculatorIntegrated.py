@@ -989,7 +989,7 @@ def clear_fields():
 
 # Set up the Tkinter window
 root = tk.Tk()
-root.title("Mass Fraction, Density, Molar Concentration, and pH Converter")
+root.title("硫酸计算器 by 吴昱澎")
 
 # Create and place labels and entry widgets
 mass_fraction_label = tk.Label(root, text="Mass Fraction (%):")
