@@ -41,7 +41,7 @@ $$
 y = y_i + \frac{(x - x_i)(y_{i+1} - y_i)}{x_{i+1} - x_i}
 $$
 
-其中，$ (x_i, y_i) $ 和 $ (x_{i+1}, y_{i+1}) $ 是相邻的已知数据点。
+其中，$(x_i, y_i)$和$(x_{i+1}, y_{i+1})$是相邻的已知数据点。
 
 ## 属性之间的转换函数
 
@@ -115,7 +115,7 @@ $$
 
 - `molar_concentration`：硫酸的摩尔浓度（mol/L）。
 - `K2`：硫酸的第二电离常数，默认为 0.0102。
-- `Kw`：水的离子积常数，默认为 $1 \times 10^{-14}$。
+- `Kw`：水的离子积常数，默认为$1 \times 10^{-14}$。
 
 **返回值**：计算得到的 pH 值。
 
@@ -125,19 +125,19 @@ $$
 
 1. **第一步电离（完全电离）**：
 
-   $$
+  $$
    \text{H}_2\text{SO}_4 \rightarrow \text{H}^+ + \text{HSO}_4^-
-   $$
+  $$
 
 2. **第二步电离（部分电离）**：
 
-   $$
+  $$
    \text{HSO}_4^- \leftrightharpoons \text{H}^+ + \text{SO}_4^{2-}, \quad K_2 = 0.0102
-   $$
+  $$
 
-设总硫酸浓度为 $ C $，则第一步电离产生的 [$\text{H}^+$] 浓度为 $ C $。
+设总硫酸浓度为$C$，则第一步电离产生的 [$\text{H}^+$] 浓度为$C$。
 
-设第二步电离产生的 [$\text{H}^+$] 浓度为 $ x $，则根据电离平衡：
+设第二步电离产生的 [$\text{H}^+$] 浓度为$x$，则根据电离平衡：
 
 $$
 K_2 = \frac{x \times [\text{SO}_4^{2-}]}{[\text{HSO}_4^-]} = \frac{x^2}{C - x}
@@ -155,7 +155,7 @@ $$
 [\text{H}^+] = C + x
 $$
 
-代入 $ [\text{OH}^-] = \frac{K_w}{[\text{H}^+]} $，结合上述方程，可以得到关于 $ [\text{H}^+] $ 的三次方程：
+代入$[\text{OH}^-] = \frac{K_w}{[\text{H}^+]}$，结合上述方程，可以得到关于$[\text{H}^+]$的三次方程：
 
 $$
 [\text{H}^+]^3 + K_2[\text{H}^+]^2 - (2CK_2 + K_w)[\text{H}^+] - K_wK_2 = 0
@@ -167,9 +167,9 @@ $$
 - 筛选出实数且大于零的根作为有效的 [$\text{H}^+$] 浓度。
 - 计算 pH 值：
 
-  $$
+ $$
   \text{pH} = -\log_{10}([\text{H}^+])
-  $$
+ $$
 
 ### 2. `get_molar_concentration_from_ph(ph, K2=0.0102, Kw=1e-14)`
 
@@ -179,7 +179,7 @@ $$
 
 - `ph`：溶液的 pH 值。
 - `K2`：硫酸的第二电离常数，默认为 0.0102。
-- `Kw`：水的离子积常数，默认为 $1 \times 10^{-14}$。
+- `Kw`：水的离子积常数，默认为$1 \times 10^{-14}$。
 
 **返回值**：计算得到的硫酸摩尔浓度（mol/L）。
 
@@ -191,7 +191,7 @@ $$
 [\text{H}^+] = 10^{-\text{pH}}
 $$
 
-根据电离平衡和物料守恒，可得硫酸浓度 $ C $ 的表达式：
+根据电离平衡和物料守恒，可得硫酸浓度$C$的表达式：
 
 $$
 C = \frac{[\text{H}^+]^3 + K_2[\text{H}^+]^2 - K_w[\text{H}^+] - K_wK_2}{[\text{H}^+]^2 + 2K_2[\text{H}^+]}
@@ -200,7 +200,7 @@ $$
 **求解步骤**：
 
 - 计算 [$\text{H}^+$] 浓度。
-- 代入上述公式，计算硫酸的摩尔浓度 $ C $。
+- 代入上述公式，计算硫酸的摩尔浓度$C$。
 
 ## 计算流程示例
 
@@ -211,81 +211,81 @@ $$
 
    - 计算密度：
 
-     $$
+    $$
      \text{density} = \text{get\_density\_from\_mass\_fraction}(\text{data}, \text{mass\_fraction})
-     $$
+    $$
 
    - 计算摩尔浓度：
 
-     $$
+    $$
      \text{molar\_concentration} = \text{get\_molar\_concentration\_from\_mass\_fraction}(\text{data}, \text{mass\_fraction})
-     $$
+    $$
 
    - 计算 pH 值：
 
-     $$
+    $$
      \text{ph\_value} = \text{calculate\_ph}(\text{molar\_concentration})
-     $$
+    $$
 
 2. **已知密度**：
 
    - 计算质量分数：
 
-     $$
+    $$
      \text{mass\_fraction} = \text{get\_mass\_fraction\_from\_density}(\text{data}, \text{density})
-     $$
+    $$
 
    - 计算摩尔浓度：
 
-     $$
+    $$
      \text{molar\_concentration} = \text{get\_molar\_concentration\_from\_density}(\text{data}, \text{density})
-     $$
+    $$
 
    - 计算 pH 值：
 
-     $$
+    $$
      \text{ph\_value} = \text{calculate\_ph}(\text{molar\_concentration})
-     $$
+    $$
 
 3. **已知摩尔浓度**：
 
    - 计算质量分数：
 
-     $$
+    $$
      \text{mass\_fraction} = \text{get\_mass\_fraction\_from\_molar\_concentration}(\text{data}, \text{molar\_concentration})
-     $$
+    $$
 
    - 计算密度：
 
-     $$
+    $$
      \text{density} = \text{get\_density\_from\_molar\_concentration}(\text{data}, \text{molar\_concentration})
-     $$
+    $$
 
    - 计算 pH 值：
 
-     $$
+    $$
      \text{ph\_value} = \text{calculate\_ph}(\text{molar\_concentration})
-     $$
+    $$
 
 4. **已知 pH 值**：
 
    - 计算摩尔浓度：
 
-     $$
+    $$
      \text{molar\_concentration} = \text{get\_molar\_concentration\_from\_ph}(\text{ph\_value})
-     $$
+    $$
 
    - 计算质量分数：
 
-     $$
+    $$
      \text{mass\_fraction} = \text{get\_mass\_fraction\_from\_molar\_concentration}(\text{data}, \text{molar\_concentration})
-     $$
+    $$
 
    - 计算密度：
 
-     $$
+    $$
      \text{density} = \text{get\_density\_from\_molar\_concentration}(\text{data}, \text{molar\_concentration})
-     $$
+    $$
 
 ## 注意事项
 
@@ -295,45 +295,45 @@ $$
 
 - **活动系数**：本程序未考虑离子强度对活动系数的影响，在高浓度溶液中可能导致误差。
 
-- **水的自偶离**：在强酸溶液中，水的自偶离可以忽略，但在计算中仍然考虑了 $ K_w $ 的影响。
+- **水的自偶离**：在强酸溶液中，水的自偶离可以忽略，但在计算中仍然考虑了$K_w$的影响。
 
 ## 数学公式汇总
 
 1. **线性插值**：
 
-   $$
+  $$
    y = y_i + \frac{(x - x_i)(y_{i+1} - y_i)}{x_{i+1} - x_i}
-   $$
+  $$
 
 2. **硫酸第二步电离平衡常数**：
 
-   $$
+  $$
    K_2 = \frac{[\text{H}^+][\text{SO}_4^{2-}]}{[\text{HSO}_4^-]}
-   $$
+  $$
 
 3. **水的离子积**：
 
-   $$
+  $$
    K_w = [\text{H}^+][\text{OH}^-]
-   $$
+  $$
 
 4. **pH 值计算**：
 
-   $$
+  $$
    \text{pH} = -\log_{10}([\text{H}^+])
-   $$
+  $$
 
 5. **三次方程（求 [$\text{H}^+$]）**：
 
-   $$
+  $$
    [\text{H}^+]^3 + K_2[\text{H}^+]^2 - (2CK_2 + K_w)[\text{H}^+] - K_wK_2 = 0
-   $$
+  $$
 
-6. **硫酸浓度反算公式（已知 pH 求 $ C $）**：
+6. **硫酸浓度反算公式（已知 pH 求$C$）**：
 
-   $$
+  $$
    C = \frac{[\text{H}^+]^3 + K_2[\text{H}^+]^2 - K_w[\text{H}^+] - K_wK_2}{[\text{H}^+]^2 + 2K_2[\text{H}^+]}
-   $$
+  $$
 
 ## 结论
 
